@@ -11,7 +11,7 @@ import os
   
 ##get the things to thingy
 app_version = '0.1.2p'
-web = 'arrv12k'
+web = 'web'
 
 class TodayTime:
 
