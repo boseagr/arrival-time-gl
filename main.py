@@ -53,9 +53,11 @@ class TodayTime:
 
 class ArrivalCahGL(TodayTime):
 
-   def __init__(self):
+   def __init__(self, logging=True, have_server=True):
      print('initializing...')
      super().__init__()
+     self.log_to_file = logging
+     self.have_server = have_server
      self.date = datetime.datetime.strftime(datetime.datetime.now(), "%b-%d-%Y")
      self.tglsheet = self.get_date()
      
@@ -67,7 +69,8 @@ class ArrivalCahGL(TodayTime):
        eel.init(os.getcwd()+'/'+web)
        text = (self.wks, self.name, self.time)
        self.text_to_write = ','.join(text)
-       self.test_csv(self.name)
+       if self.have_server:
+            self.test_csv(self.name)
      print('initializing finished...')
      
    def get_date(self):
@@ -106,8 +109,10 @@ class ArrivalCahGL(TodayTime):
          self.write_to_file_win(self.text_to_write)
      except Exception as error :
        print(error)
-       if self.retry > 0 : self.logging('win_read_error', retry = 1) 
-       else: self.logging('error')
+       if self.log_to_file:
+           if self.retry > 0 : self.logging('win_read_error', retry = 1) 
+           else: 
+              self.logging('error')
        
        
    def logging(self, log_type, retry = 0):
@@ -287,7 +292,8 @@ class ArrivalCahGL(TodayTime):
    def delete_html(self):
      print('deleting any trace...')
      os.remove(web+'.html')
-     self.logging('sent_success')
+     if self.log_to_file:
+         self.logging('sent_success')
 
    
    def send_data(self):
@@ -336,7 +342,7 @@ def updateclient():
 if __name__ == '__main__':
    i_am_arrive = ArrivalCahGL()
    i_am_arrive.send_data()
-   if i_am_arrive.is_windows:
+   if i_am_arrive.is_windows and i_am_arrive.have_server:
      print('checkint update')
      updateclient()
      print('done')
