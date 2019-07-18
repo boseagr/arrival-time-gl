@@ -13,7 +13,7 @@ import os
 app_version = '0.1.2p'
 web = 'web'
 SERVER = 'jogwks0003'
-
+GOOGLE_SCRIPT = 'https://script.google.com/macros/s/AKfycbw9T9iSJ_RM3QrCLhnBrD5qPSHLEEY4OsoLa_Tt_weLGyjkQAsm/exec'
 
 class TodayTime:
 
@@ -60,7 +60,8 @@ class ArrivalCahGL(TodayTime):
      self.have_server = have_server
      self.date = datetime.datetime.strftime(datetime.datetime.now(), "%b-%d-%Y")
      self.tglsheet = self.get_date()
-     
+     self.script = GOOGLE_SCRIPT
+    
      if self.is_windows:
        self.retry = 3
        self.filename = 'arrival_' + datetime.datetime.strftime(datetime.datetime.now(), "%b-%d-%Y") + '.csv'
@@ -198,7 +199,7 @@ class ArrivalCahGL(TodayTime):
           //https://script.google.com/macros/s/AKfycbzV--xTooSkBLufMs4AnrCTdwZxVNtycTE4JNtaCze2UijXAg8/exec
           // fire off the request to /form.php
           request = $.ajax({{
-           url: "https://script.google.com/macros/s/AKfycbw9T9iSJ_RM3QrCLhnBrD5qPSHLEEY4OsoLa_Tt_weLGyjkQAsm/exec",
+           url: "{4}",
            type: "post",
            data: serializedData
           }});
@@ -279,7 +280,7 @@ class ArrivalCahGL(TodayTime):
 
         </body>
         </<html>
-        '''.format(self.name, self.tglsheet, self.time, self.is_late)
+        '''.format(self.name, self.tglsheet, self.time, self.is_late, self.script)
         
        if not os.path.exists(web):
           os.makedirs(web)
