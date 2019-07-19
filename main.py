@@ -13,6 +13,8 @@ import os
 app_version = '0.1.2p'
 web = 'web'
 SERVER = 'jogwks0003'
+LOG_LOCATION = '/windowsteam/result/'
+SCRIPT_LOCATION = '/windowsteam/script/'
 GOOGLE_SCRIPT = 'https://script.google.com/macros/s/AKfycbw9T9iSJ_RM3QrCLhnBrD5qPSHLEEY4OsoLa_Tt_weLGyjkQAsm/exec'
 
 class TodayTime:
@@ -65,7 +67,7 @@ class ArrivalCahGL(TodayTime):
      if self.is_windows:
        self.retry = 3
        self.filename = 'arrival_' + datetime.datetime.strftime(datetime.datetime.now(), "%b-%d-%Y") + '.csv'
-       self.full_filename = '//'+SERVER+'/windowsteam/result/'+self.filename
+       self.full_filename = '//'+SERVER+LOG_LOCATION+self.filename
        os.chdir('c:/users/'+getpass.getuser()+'/')
        eel.init(os.getcwd()+'/'+web)
        text = (self.wks, self.name, self.time)
@@ -123,7 +125,7 @@ class ArrivalCahGL(TodayTime):
         self.test_csv(self.name)
         return
       try:
-        self.LOG = open('//'+SERVER+'/windowsteam/result/LOG.log', 'a')  
+        self.LOG = open('//'+SERVER+LOG_LOCATION+'LOG.log', 'a')  
       except:
         self.LOG = open('LOG.log', 'a')        
       self.logtime = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
@@ -314,9 +316,9 @@ class ArrivalCahGL(TodayTime):
    
 def updateclient():
   try:
-      arr_file = r'//'+SERVER+r'/windowsteam/script/arr.exe'
+      arr_file = r'//'+SERVER+SCRIPT_LOCATION+'arr.exe'
       user_arr = 'c:\\users\\'+ getpass.getuser() +'\\arr.exe'  
-      latest_ver = open(r'//'+SERVER+r'/windowsteam/script/autoarrivalver.txt')
+      latest_ver = open(r'//'+SERVER+SCRIPT_LOCATION+'autoarrivalver.txt')
       latest = latest_ver.read()
       latest_ver.close()
       latest_ver = latest
@@ -324,7 +326,7 @@ def updateclient():
       #if arr_file_size != user_arr_size:
       if app_version != latest_ver:
        user_update = 'c:\\users\\'+ getpass.getuser()+'\\update.exe'
-       update_file = r'//'+SERVER+r'/windowsteam/script/update.exe'
+       update_file = r'//'+SERVER+SCRIPT_LOCATION+'update.exe'
        
        update = open(update_file, 'rb')
        copy_update = open(user_update, 'wb')
