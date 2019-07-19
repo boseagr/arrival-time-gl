@@ -129,7 +129,7 @@ class ArrivalCahGL(TodayTime):
       self.logtime = datetime.datetime.strftime(datetime.datetime.now(), '%Y-%m-%d %H:%M:%S')
       if log_type == 'error':
         self.LOG.write('{} : {} \n => Failed'.format(self.logtime, self.name))
-        self.LOG.write('-'*len(name)+'--\n')
+        self.LOG.write('-'*len(self.name)+'--\n')
         self.LOG.write(traceback.format_exc())
         self.LOG.write('\n')
         self.LOG.close()        
